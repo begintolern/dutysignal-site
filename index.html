@@ -3,59 +3,102 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DutySignal | Manual Duty Recovery Review</title>
+  <title>DutySignal | Small Importer Action Cockpit</title>
   <meta
     name="description"
-    content="DutySignal helps importers spot likely duty recovery exposure, document gaps, and margin-risk SKUs from one redacted CSV."
+    content="DutySignal helps U.S. small importers review import entries, surface affected items, identify missing records, and get exact next actions through a narrow pilot workflow."
   />
   <style>
     * { box-sizing: border-box; }
+
+    :root {
+      --bg: #0b1220;
+      --panel: #121b2f;
+      --border: #24324d;
+      --border-soft: #1b2942;
+      --text: #f4f7fb;
+      --muted: #c7d4ea;
+      --muted-2: #9fb0cb;
+      --accent: #55b4ff;
+      --accent-soft: #9ad1ff;
+      --success-bg: #10243a;
+      --success-border: #2b5c89;
+      --critical-bg: #3a1620;
+      --critical-border: #7f3244;
+      --critical-text: #ffd1db;
+      --high-bg: #2e2411;
+      --high-border: #7a5a24;
+      --high-text: #ffe4af;
+      --medium-bg: #12253b;
+      --medium-border: #31567f;
+      --medium-text: #d5e8ff;
+      --low-bg: #16261e;
+      --low-border: #335e49;
+      --low-text: #d4f7e3;
+    }
+
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: #0b1220;
-      color: #f4f7fb;
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
     }
+
     .wrap {
-      max-width: 1040px;
+      max-width: 1080px;
       margin: 0 auto;
       padding: 24px;
     }
+
     .hero {
       padding: 72px 0 40px;
     }
+
     .eyebrow {
-      color: #9ad1ff;
+      color: var(--accent-soft);
       text-transform: uppercase;
       letter-spacing: 0.14em;
       font-size: 12px;
       font-weight: 700;
       margin-bottom: 14px;
     }
+
     h1 {
-      font-size: 48px;
-      line-height: 1.05;
+      font-size: 52px;
+      line-height: 1.04;
       margin: 0 0 16px;
     }
+
     h2 {
-      font-size: 28px;
+      font-size: 30px;
       margin: 0 0 14px;
+      line-height: 1.15;
     }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
     p {
-      color: #c7d4ea;
+      color: var(--muted);
       margin: 0 0 16px;
     }
+
     .subheadline {
       font-size: 20px;
-      max-width: 820px;
+      max-width: 880px;
     }
+
     .cta-row {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
       margin-top: 24px;
     }
+
     .btn {
       display: inline-block;
       padding: 14px 18px;
@@ -63,72 +106,449 @@
       text-decoration: none;
       font-weight: 700;
       border: 1px solid #2a3b5f;
+      transition: 0.18s ease;
     }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
     .btn-primary {
-      background: #55b4ff;
+      background: var(--accent);
       color: #08101c;
-      border-color: #55b4ff;
+      border-color: var(--accent);
     }
+
     .btn-secondary {
       background: transparent;
-      color: #f4f7fb;
+      color: var(--text);
     }
+
     .trust {
       margin-top: 18px;
-      color: #9fb0cb;
+      color: var(--muted-2);
       font-size: 14px;
     }
+
     .section {
-      padding: 28px 0;
-      border-top: 1px solid #1b2942;
+      padding: 32px 0;
+      border-top: 1px solid var(--border-soft);
     }
+
     .card-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
     }
+
     .card {
-      background: #121b2f;
-      border: 1px solid #24324d;
+      background: var(--panel);
+      border: 1px solid var(--border);
       border-radius: 18px;
       padding: 18px;
     }
-    ul {
-      margin: 0;
-      padding-left: 20px;
-      color: #c7d4ea;
+
+    .card p:last-child,
+    .card ul:last-child {
+      margin-bottom: 0;
     }
-    li {
-      margin-bottom: 10px;
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 16px;
     }
+
+    .signal {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .signal strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
     .two-col {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 18px;
     }
-    .pilot-box {
-      background: #10192d;
-      border: 1px solid #2a3b5f;
+
+    .highlight {
+      background: linear-gradient(180deg, #10203a 0%, #0f192d 100%);
+      border: 1px solid #2b4c75;
+      border-radius: 20px;
+      padding: 22px;
+    }
+
+    .status-box {
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
       border-radius: 18px;
       padding: 20px;
     }
-    .footer {
-      padding: 36px 0 70px;
-      border-top: 1px solid #1b2942;
-      color: #9fb0cb;
+
+    .mock-shell {
+      margin-top: 18px;
+      background: linear-gradient(180deg, #0d1527 0%, #0a1220 100%);
+      border: 1px solid #29466c;
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
     }
+
+    .mock-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .mock-kicker {
+      color: var(--accent-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .mock-title {
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.15;
+      margin: 0;
+    }
+
+    .mock-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: #14365a;
+      border: 1px solid #37679a;
+      color: #e7f2ff;
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .mock-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .mock-pill {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: #111d33;
+      border: 1px solid #2a3b5f;
+      color: #d7e2f3;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .mock-pill.active {
+      background: #17365a;
+      border-color: #4c88c5;
+      color: #ffffff;
+    }
+
+    .mock-metrics {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .mock-metric {
+      background: #10192d;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .mock-metric-label {
+      color: var(--muted-2);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .mock-metric-value {
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .mock-stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .mock-table-wrap {
+      background: #10192d;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .mock-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .mock-table th,
+    .mock-table td {
+      padding: 14px 12px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid #1d2b44;
+      word-wrap: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .mock-table th {
+      color: var(--muted-2);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      background: #0d1527;
+    }
+
+    .mock-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .col-priority { width: 14%; }
+    .col-sku { width: 13%; }
+    .col-change { width: 31%; }
+    .col-deadline { width: 16%; }
+    .col-action { width: 26%; }
+
+    .priority-badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .priority-critical {
+      background: var(--critical-bg);
+      border: 1px solid var(--critical-border);
+      color: var(--critical-text);
+    }
+
+    .priority-high {
+      background: var(--high-bg);
+      border: 1px solid var(--high-border);
+      color: var(--high-text);
+    }
+
+    .priority-medium {
+      background: var(--medium-bg);
+      border: 1px solid var(--medium-border);
+      color: var(--medium-text);
+    }
+
+    .priority-low {
+      background: var(--low-bg);
+      border: 1px solid var(--low-border);
+      color: var(--low-text);
+    }
+
+    .mock-side {
+      background: #10192d;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .mock-side-header {
+      padding-bottom: 14px;
+      border-bottom: 1px solid #1d2b44;
+      margin-bottom: 6px;
+    }
+
+    .mock-side-title {
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 0 0 6px;
+    }
+
+    .mock-side-sub {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .mock-side-block {
+      padding: 14px 0;
+      border-bottom: 1px solid #1d2b44;
+    }
+
+    .mock-side-block:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .mock-side-label {
+      color: var(--accent-soft);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .mock-side-value {
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .mock-side-list {
+      margin: 8px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .mock-side-list li {
+      margin-bottom: 6px;
+    }
+
+    .mock-side-cta-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .mock-small-btn {
+      display: inline-block;
+      padding: 10px 12px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      border: 1px solid #33577f;
+      color: #eff6ff;
+      background: #132844;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
     .small {
       font-size: 14px;
-      color: #9fb0cb;
+      color: var(--muted-2);
     }
+
+    .footer {
+      padding: 36px 0 70px;
+      border-top: 1px solid var(--border-soft);
+      color: var(--muted-2);
+    }
+
     a.inline {
-      color: #9ad1ff;
+      color: var(--accent-soft);
     }
-    @media (max-width: 820px) {
-      h1 { font-size: 36px; }
+
+    .label {
+      display: inline-block;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      color: var(--accent-soft);
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 960px) {
+      .mock-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 860px) {
+      h1 { font-size: 38px; }
       .subheadline { font-size: 18px; }
       .card-grid,
-      .two-col {
+      .two-col,
+      .signal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mock-table,
+      .mock-table thead,
+      .mock-table tbody,
+      .mock-table th,
+      .mock-table td,
+      .mock-table tr {
+        display: block;
+        width: 100%;
+      }
+
+      .mock-table thead {
+        display: none;
+      }
+
+      .mock-table tr {
+        border-bottom: 1px solid #1d2b44;
+      }
+
+      .mock-table tr:last-child {
+        border-bottom: 0;
+      }
+
+      .mock-table td {
+        padding: 10px 12px;
+        border-bottom: 0;
+      }
+
+      .mock-table td::before {
+        content: attr(data-label);
+        display: block;
+        color: var(--muted-2);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .mock-metrics {
         grid-template-columns: 1fr;
       }
     }
@@ -137,168 +557,331 @@
 <body>
   <div class="wrap">
     <section class="hero">
-      <div class="eyebrow">Manual Duty Recovery Review</div>
-      <h1>Find missed duty recovery opportunities from one redacted CSV</h1>
+      <div class="eyebrow">Small Importer Action Cockpit</div>
+      <h1>Know what changed, what is affected, and what to do next</h1>
       <p class="subheadline">
-        DutySignal helps importers spot likely refund exposure, document gaps, and margin-risk SKUs from a single CSV export. This is a manual review service built for fast triage, not a self-serve software platform.
+        DutySignal is a narrow pilot workflow for U.S. small importers that do not have a real in-house trade or compliance team. Send a structured import file, surface affected entries, see which cases are ready now versus still missing records, and get a printable action pack built for follow-through.
       </p>
 
       <div class="cta-row">
-        <a class="btn btn-primary" href="mailto:hello@dutysignal.com?subject=Request%20CSV%20Format">Request CSV Format</a>
-        <a class="btn btn-secondary" href="mailto:hello@dutysignal.com">Email hello@dutysignal.com</a>
+        <a class="btn btn-primary" href="mailto:hello@dutysignal.com?subject=Request%20DutySignal%20Pilot">Request Pilot Review</a>
+        <a class="btn btn-secondary" href="mailto:hello@dutysignal.com?subject=Request%20DutySignal%20Upload%20Template">Request Upload Template</a>
       </div>
 
       <div class="trust">
-        Redacted files accepted. You can replace names, SKUs, and product labels with aliases.
+        Pilot-first workflow. Redacted files are acceptable for early review if aliases stay consistent across rows. The current deliverable is a manual action-pack review, not a self-serve filing system.
       </div>
     </section>
 
     <section class="section">
-      <h2>A fast review for import records that may be leaking money</h2>
-      <p>
-        If you import physical goods, you may have entries worth reviewing for duty recovery or product lines where landed costs are eating margin harder than expected.
-      </p>
-      <p>
-        DutySignal reviews one redacted CSV and returns a client-ready report that helps you answer:
-      </p>
-      <ul>
-        <li>Where is likely recovery exposure?</li>
-        <li>Which entries look ready now?</li>
-        <li>Which entries still need documents?</li>
-        <li>Which SKUs are under margin pressure?</li>
-        <li>What should be reviewed first?</li>
-      </ul>
+      <div class="highlight">
+        <div class="label">Core Job</div>
+        <h2 style="margin-top:0;">This is not a generic tariff alert tool</h2>
+        <p>
+          Small importers do not just need another stream of headlines. They need to know which entries may be affected, where money may be at stake, what support is missing, what deadline matters, and what exact next step to take.
+        </p>
+        <p style="margin-bottom:0;">
+          DutySignal is being built around that narrower job: importer action, not vague awareness.
+        </p>
+      </div>
     </section>
 
     <section class="section">
-      <h2>How the review works</h2>
+      <h2>How the pilot works</h2>
       <div class="card-grid">
         <div class="card">
-          <h3>1. Send one CSV</h3>
-          <p>Export one spreadsheet in CSV format. Redaction is allowed.</p>
+          <h3>1. Send import data</h3>
+          <p>Request the upload template, then send one structured CSV for review. Redaction is acceptable if the row logic stays usable.</p>
         </div>
         <div class="card">
-          <h3>2. We review it manually</h3>
-          <p>We analyze likely duty recovery exposure, evidence readiness, and margin-risk signals.</p>
+          <h3>2. DutySignal reviews it</h3>
+          <p>The intake is run through the cockpit to surface affected entries, readiness gaps, item pressure, and ranked next actions.</p>
         </div>
         <div class="card">
-          <h3>3. Get a clear report back</h3>
-          <p>You receive a structured report showing what looks worth pursuing, what still needs support, and what should be prioritized first.</p>
+          <h3>3. You get an action pack</h3>
+          <p>You receive a printable handoff showing what looks actionable now, what still needs documents, and what to send or do next.</p>
         </div>
       </div>
     </section>
 
     <section class="section">
-      <h2>What’s included in the review</h2>
-      <div class="two-col">
-        <div class="card">
-          <ul>
-            <li>Executive Summary</li>
-            <li>Recovery Opportunity Snapshot</li>
-            <li>Qualified vs. Needs Documents counts</li>
-            <li>Top Priority Entries</li>
-          </ul>
+      <h2>What the pilot output is meant to show</h2>
+      <div class="signal-grid">
+        <div class="signal">
+          <strong>What changed</strong>
+          <p>Plain-English explanation of the issue or operating signal that may affect recent import entries.</p>
         </div>
-        <div class="card">
-          <ul>
-            <li>Margin Risk Snapshot</li>
-            <li>Recommended Next Steps</li>
-            <li>Recovery Worklist for follow-up</li>
-          </ul>
+        <div class="signal">
+          <strong>What is affected</strong>
+          <p>Which entries, SKUs, origin patterns, and related items appear to deserve review first.</p>
+        </div>
+        <div class="signal">
+          <strong>Whether support is ready</strong>
+          <p>Which cases look action-ready now and which still need entry packets, broker backup, invoices, or classification support.</p>
+        </div>
+        <div class="signal">
+          <strong>What should happen first</strong>
+          <p>Ranked next actions instead of a flat list of alerts, so a small operator can move in order.</p>
+        </div>
+        <div class="signal">
+          <strong>Where item pressure exists</strong>
+          <p>SKU-level pressure snapshot so entry review and margin decisions are not treated as separate worlds.</p>
+        </div>
+        <div class="signal">
+          <strong>What can be handed off</strong>
+          <p>A printable action pack built for review and follow-through, without pretending the tool is filing software.</p>
         </div>
       </div>
-      <p class="small" style="margin-top:14px;">
-        This is a decision and triage review. It does not include customs filing, legal advice, or broker representation.
-      </p>
     </section>
 
     <section class="section">
-      <h2>What to send us</h2>
+      <h2>Sample Action Cockpit</h2>
       <p>
-        Send one CSV with core import and margin fields. The ideal file includes:
+        Below is a sample of the kind of working screen the pilot is built to produce. The point is not a concept deck. The point is a triage view that shows what deserves attention now and what to do next.
       </p>
+
+      <div class="mock-shell">
+        <div class="mock-topbar">
+          <div>
+            <div class="mock-kicker">Action Cockpit</div>
+            <div class="mock-title">April Upload #1</div>
+            <p class="small" style="margin:8px 0 0;">
+              14 flagged items • Last analyzed Apr 9, 2026 at 2:18 PM
+            </p>
+          </div>
+
+          <div>
+            <span class="mock-action">Export Action Pack</span>
+          </div>
+        </div>
+
+        <div class="mock-pill-row">
+          <span class="mock-pill active">All</span>
+          <span class="mock-pill">Critical</span>
+          <span class="mock-pill">Refund Opportunities</span>
+          <span class="mock-pill">Deadlines Soon</span>
+          <span class="mock-pill">Waiting on Records</span>
+          <span class="mock-pill">Ready to Send</span>
+        </div>
+
+        <div class="mock-metrics">
+          <div class="mock-metric">
+            <div class="mock-metric-label">Critical</div>
+            <div class="mock-metric-value">6</div>
+          </div>
+          <div class="mock-metric">
+            <div class="mock-metric-label">High</div>
+            <div class="mock-metric-value">4</div>
+          </div>
+          <div class="mock-metric">
+            <div class="mock-metric-label">Refund Opps</div>
+            <div class="mock-metric-value">3</div>
+          </div>
+          <div class="mock-metric">
+            <div class="mock-metric-label">Deadlines Soon</div>
+            <div class="mock-metric-value">4</div>
+          </div>
+          <div class="mock-metric">
+            <div class="mock-metric-label">Ready to Send</div>
+            <div class="mock-metric-value">5</div>
+          </div>
+        </div>
+
+        <div class="mock-stack">
+          <div class="mock-table-wrap">
+            <table class="mock-table">
+              <thead>
+                <tr>
+                  <th class="col-priority">Priority</th>
+                  <th class="col-sku">SKU</th>
+                  <th class="col-change">Change Detected</th>
+                  <th class="col-deadline">Deadline</th>
+                  <th class="col-action">Next Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Priority"><span class="priority-badge priority-critical">Critical</span></td>
+                  <td data-label="SKU">SKU-1042</td>
+                  <td data-label="Change Detected">Possible refund review on recent entries</td>
+                  <td data-label="Deadline">Apr 22, 2026</td>
+                  <td data-label="Next Action">Ask broker to review 3 affected entries</td>
+                </tr>
+                <tr>
+                  <td data-label="Priority"><span class="priority-badge priority-high">High</span></td>
+                  <td data-label="SKU">SKU-2230</td>
+                  <td data-label="Change Detected">Entry appears reviewable but still missing support</td>
+                  <td data-label="Deadline">No hard deadline</td>
+                  <td data-label="Next Action">Pull missing invoice and broker backup</td>
+                </tr>
+                <tr>
+                  <td data-label="Priority"><span class="priority-badge priority-medium">Medium</span></td>
+                  <td data-label="SKU">SKU-8811</td>
+                  <td data-label="Change Detected">Item pressure tied to current landed cost</td>
+                  <td data-label="Deadline">Review this week</td>
+                  <td data-label="Next Action">Compare landed cost against current sell price</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mock-side">
+            <div class="mock-side-header">
+              <div class="mock-kicker">Action Detail Preview</div>
+              <div class="mock-side-title">Entry E004 • SKU126</div>
+              <p class="mock-side-sub">Qualified • Exposure: $3,800 • Priority: High</p>
+            </div>
+
+            <div class="mock-side-block">
+              <div class="mock-side-label">What changed</div>
+              <div class="mock-side-value">
+                This entry surfaced as a higher-value review case with enough support on hand to move into action review.
+              </div>
+            </div>
+
+            <div class="mock-side-block">
+              <div class="mock-side-label">Readiness</div>
+              <div class="mock-side-value">Qualified now. No missing support blocks this case.</div>
+            </div>
+
+            <div class="mock-side-block">
+              <div class="mock-side-label">Exact next action</div>
+              <div class="mock-side-value">
+                Pull the entry packet and broker backup, then start the action review before lower-value entries.
+              </div>
+            </div>
+
+            <div class="mock-side-block">
+              <div class="mock-side-label">Records needed</div>
+              <ul class="mock-side-list">
+                <li>Entry packet</li>
+                <li>Broker backup</li>
+                <li>Commercial invoice</li>
+              </ul>
+
+              <div class="mock-side-cta-row">
+                <span class="mock-small-btn">Copy Broker Email</span>
+                <span class="mock-small-btn">Open Full Detail</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What you upload for pilot review</h2>
+      <p>
+        DutySignal is built around structured import-entry data. The preferred intake includes:
+      </p>
+
       <div class="card">
         <p class="small">
           entry_id, entry_date, importer_name, supplier_name, country_of_origin, declared_value_usd, duty_paid_usd, freight_cost_usd, sku, product_name, quantity, selling_price_usd
         </p>
       </div>
 
-      <p style="margin-top:16px;">Optional but useful:</p>
+      <p style="margin-top:16px;">Recommended support columns:</p>
+
       <div class="card">
         <p class="small">
-          hs_code, marketplace, fba_fee_usd, referral_fee_usd, other_cost_usd, entry_packet_on_hand, broker_backup_on_hand, commercial_invoice_on_hand, classification_support_on_hand
+          entry_packet_on_hand, broker_backup_on_hand, commercial_invoice_on_hand, classification_support_on_hand, hs_code, marketplace, fba_fee_usd, referral_fee_usd, other_cost_usd
         </p>
       </div>
 
       <p style="margin-top:16px;">
-        You may replace importer name, supplier name, SKU, and product name with aliases as long as the aliases stay consistent across rows.
+        Redaction is acceptable for early review if aliases stay consistent and the row structure remains usable.
       </p>
     </section>
 
     <section class="section">
       <h2>Best fit for</h2>
       <ul>
-        <li>Small to mid-sized importers</li>
-        <li>Founder-led ecommerce brands importing physical goods</li>
-        <li>Operations, finance, or supply-chain teams</li>
-        <li>Businesses that want a fast review before spending time on deeper recovery work</li>
+        <li>U.S. small importers with no dedicated customs or compliance employee</li>
+        <li>Owner-led or lean operations teams that need triage, not enterprise workflow software</li>
+        <li>Importers managing roughly 10–100 HTS codes or a manageable but real entry load</li>
+        <li>Businesses under margin pressure that need to know what deserves action first</li>
       </ul>
     </section>
 
     <section class="section">
-      <h2>Pilot review terms</h2>
-      <div class="pilot-box">
-        <ul>
-          <li>1 CSV</li>
-          <li>Up to 500 rows</li>
-          <li>72-hour turnaround</li>
-          <li>$250 flat</li>
-        </ul>
+      <h2>What DutySignal is not</h2>
+      <div class="two-col">
+        <div class="card">
+          <ul>
+            <li>Not a generic tariff or news alert feed</li>
+            <li>Not enterprise trade-compliance software</li>
+            <li>Not customs filing software</li>
+            <li>Not broker representation</li>
+          </ul>
+        </div>
+        <div class="card">
+          <ul>
+            <li>Not vague AI chat for open-ended research</li>
+            <li>Not a replacement for your broker</li>
+            <li>Not a legal opinion</li>
+            <li>Not a broad platform trying to do everything at once</li>
+          </ul>
+        </div>
       </div>
-      <p class="small" style="margin-top:14px;">
-        Larger files or repeat reviews can be scoped separately.
-      </p>
     </section>
 
     <section class="section">
-      <h2>Built for cautious first reviews</h2>
-      <p>
-        We understand import records can be sensitive. That is why DutySignal accepts redacted CSVs for initial review. You do not need to send full operational detail just to test whether a review is useful.
-      </p>
-      <p>
-        For first-pass reviews, structured row data matters more than brand names.
-      </p>
+      <h2>Current pilot status</h2>
+      <div class="status-box">
+        <ul>
+          <li>The core front-end MVP flow already exists and runs end to end in prototype form.</li>
+          <li>The current go-to-market path is a manual pilot, not a self-serve SaaS launch.</li>
+          <li>Pilot intake and early access requests are being handled directly through email.</li>
+          <li>The near-term goal is to learn what small importers will actually pay for before building backend complexity.</li>
+        </ul>
+      </div>
     </section>
 
     <section class="section">
       <h2>FAQ</h2>
+
+      <div class="card" style="margin-bottom:14px;">
+        <h3>Is DutySignal live as a self-serve SaaS?</h3>
+        <p>No. The current version is a pilot workflow supported by a working MVP demo and manual delivery.</p>
+      </div>
+
+      <div class="card" style="margin-bottom:14px;">
+        <h3>What do I get back after sending a file?</h3>
+        <p>A reviewed action-pack style output showing possible opportunity, readiness status, missing records, priority entries, item pressure, and ranked next actions.</p>
+      </div>
+
       <div class="card" style="margin-bottom:14px;">
         <h3>Do I need to send unredacted files?</h3>
-        <p>No. Redacted CSVs are fine for initial review as long as the row structure and key numeric fields remain intact.</p>
+        <p>No. For early review, redacted files are acceptable if aliases stay consistent and the structure remains usable.</p>
       </div>
+
       <div class="card" style="margin-bottom:14px;">
-        <h3>Is this software access?</h3>
-        <p>No. DutySignal is currently a manual review service. You send the file, and we return the report.</p>
+        <h3>Will DutySignal file claims or act as my broker?</h3>
+        <p>No. DutySignal is built to help you review what deserves action and what should happen next. It is not customs filing or broker representation.</p>
       </div>
+
       <div class="card">
-        <h3>Do you file claims for us?</h3>
-        <p>Not as part of the pilot review. The pilot is designed to identify likely opportunities, document gaps, and next steps.</p>
+        <h3>Why is the workflow narrow on purpose?</h3>
+        <p>Because the wedge is clarity and action for small importers. The goal is to solve one hard problem well instead of drifting into a bloated platform.</p>
       </div>
     </section>
 
     <section class="section">
-      <h2>Start with one redacted CSV</h2>
+      <h2>Request pilot access</h2>
       <p>
-        If you want to see whether your import records contain likely recovery opportunities or margin-risk issues, start with one file.
+        If you are a U.S. small importer and want to test whether DutySignal fits your workflow, request the upload template or email a brief summary of your import setup and current pain point.
       </p>
+
       <div class="cta-row">
-        <a class="btn btn-primary" href="mailto:hello@dutysignal.com?subject=Request%20CSV%20Format">Request CSV Format</a>
+        <a class="btn btn-primary" href="mailto:hello@dutysignal.com?subject=Request%20DutySignal%20Pilot">Request Pilot Review</a>
+        <a class="btn btn-secondary" href="mailto:hello@dutysignal.com">Email hello@dutysignal.com</a>
       </div>
     </section>
 
     <footer class="footer">
       <div>DutySignal</div>
-      <div class="small">Manual Duty Recovery Review</div>
+      <div class="small">Small Importer Action Cockpit</div>
       <div class="small" style="margin-top:10px;">
         Contact: <a class="inline" href="mailto:hello@dutysignal.com">hello@dutysignal.com</a>
       </div>
