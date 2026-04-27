@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DutySignal | Small Importer Action Cockpit</title>
+  <title>DutySignal | Know what changed, what is affected, and what to do next</title>
   <meta
     name="description"
-    content="DutySignal helps U.S. small importers review import entries, surface affected items, identify missing records, and get exact next actions through a narrow pilot workflow."
+    content="DutySignal helps U.S. small importers figure out which entries may be affected, what records are missing, what deserves action first, and what to do next through a narrow pilot workflow."
   />
   <style>
     * { box-sizing: border-box; }
@@ -87,9 +87,16 @@
       margin: 0 0 16px;
     }
 
+    .pain-line {
+      font-size: 22px;
+      color: var(--text);
+      max-width: 860px;
+      margin-bottom: 16px;
+    }
+
     .subheadline {
-      font-size: 20px;
-      max-width: 880px;
+      font-size: 19px;
+      max-width: 900px;
     }
 
     .cta-row {
@@ -501,6 +508,7 @@
 
     @media (max-width: 860px) {
       h1 { font-size: 38px; }
+      .pain-line { font-size: 19px; }
       .subheadline { font-size: 18px; }
       .card-grid,
       .two-col,
@@ -557,20 +565,32 @@
 <body>
   <div class="wrap">
     <section class="hero">
-      <div class="eyebrow">Small Importer Action Cockpit</div>
+      <div class="eyebrow">For U.S. small importers without a real in-house trade team</div>
       <h1>Know what changed, what is affected, and what to do next</h1>
+      <p class="pain-line">
+        You got the tariff alert. Now you have no idea which of your entries it actually hits.
+      </p>
       <p class="subheadline">
-        DutySignal is a narrow pilot workflow for U.S. small importers that do not have a real in-house trade or compliance team. Send a structured import file, surface affected entries, see which cases are ready now versus still missing records, and get a printable action pack built for follow-through.
+        DutySignal is a Small Importer Action Cockpit delivered through a narrow pilot workflow. Send a structured import file, see which entries deserve review first, understand what support is missing, and get a printable action pack built for follow-through.
       </p>
 
       <div class="cta-row">
         <a class="btn btn-primary" href="mailto:hello@dutysignal.com?subject=Request%20DutySignal%20Pilot">Request Pilot Review</a>
-        <a class="btn btn-secondary" href="mailto:hello@dutysignal.com?subject=Request%20DutySignal%20Upload%20Template">Request Upload Template</a>
       </div>
 
       <div class="trust">
-        Pilot-first workflow. Redacted files are acceptable for early review if aliases stay consistent across rows. The current deliverable is a manual action-pack review, not a self-serve filing system.
+        Redacted files are acceptable for early review if aliases stay consistent across rows. Without a clear review path, small importers can miss deadlines, leave review-worthy entries untouched, or spend time on the wrong cases first.
       </div>
+    </section>
+
+    <section class="section">
+      <h2>Best fit for</h2>
+      <ul>
+        <li>U.S. small importers with no dedicated customs or compliance employee</li>
+        <li>Owner-led or lean operations teams that need triage, not enterprise workflow software</li>
+        <li>Importers managing roughly 10–100 HTS codes or a manageable but real entry load</li>
+        <li>Businesses under margin pressure that need to know what deserves action first</li>
+      </ul>
     </section>
 
     <section class="section">
@@ -587,57 +607,9 @@
     </section>
 
     <section class="section">
-      <h2>How the pilot works</h2>
-      <div class="card-grid">
-        <div class="card">
-          <h3>1. Send import data</h3>
-          <p>Request the upload template, then send one structured CSV for review. Redaction is acceptable if the row logic stays usable.</p>
-        </div>
-        <div class="card">
-          <h3>2. DutySignal reviews it</h3>
-          <p>The intake is run through the cockpit to surface affected entries, readiness gaps, item pressure, and ranked next actions.</p>
-        </div>
-        <div class="card">
-          <h3>3. You get an action pack</h3>
-          <p>You receive a printable handoff showing what looks actionable now, what still needs documents, and what to send or do next.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>What the pilot output is meant to show</h2>
-      <div class="signal-grid">
-        <div class="signal">
-          <strong>What changed</strong>
-          <p>Plain-English explanation of the issue or operating signal that may affect recent import entries.</p>
-        </div>
-        <div class="signal">
-          <strong>What is affected</strong>
-          <p>Which entries, SKUs, origin patterns, and related items appear to deserve review first.</p>
-        </div>
-        <div class="signal">
-          <strong>Whether support is ready</strong>
-          <p>Which cases look action-ready now and which still need entry packets, broker backup, invoices, or classification support.</p>
-        </div>
-        <div class="signal">
-          <strong>What should happen first</strong>
-          <p>Ranked next actions instead of a flat list of alerts, so a small operator can move in order.</p>
-        </div>
-        <div class="signal">
-          <strong>Where item pressure exists</strong>
-          <p>SKU-level pressure snapshot so entry review and margin decisions are not treated as separate worlds.</p>
-        </div>
-        <div class="signal">
-          <strong>What can be handed off</strong>
-          <p>A printable action pack built for review and follow-through, without pretending the tool is filing software.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
       <h2>Sample Action Cockpit</h2>
       <p>
-        Below is a sample of the kind of working screen the pilot is built to produce. The point is not a concept deck. The point is a triage view that shows what deserves attention now and what to do next.
+        This is the strongest part of the workflow: a triage view that shows what deserves attention now and what to do next.
       </p>
 
       <div class="mock-shell">
@@ -770,38 +742,54 @@
     </section>
 
     <section class="section">
-      <h2>What you upload for pilot review</h2>
-      <p>
-        DutySignal is built around structured import-entry data. The preferred intake includes:
-      </p>
-
-      <div class="card">
-        <p class="small">
-          entry_id, entry_date, importer_name, supplier_name, country_of_origin, declared_value_usd, duty_paid_usd, freight_cost_usd, sku, product_name, quantity, selling_price_usd
-        </p>
+      <h2>How the pilot works</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h3>1. Send import data</h3>
+          <p>Request the upload template, then send one structured CSV for review. Redaction is acceptable if the row logic stays usable.</p>
+        </div>
+        <div class="card">
+          <h3>2. DutySignal reviews it</h3>
+          <p>The intake is run through the cockpit to surface affected entries, readiness gaps, item pressure, and ranked next actions.</p>
+        </div>
+        <div class="card">
+          <h3>3. You get an action pack</h3>
+          <p>You receive a printable handoff showing what looks actionable now, what still needs documents, and what to send or do next.</p>
+        </div>
       </div>
-
-      <p style="margin-top:16px;">Recommended support columns:</p>
-
-      <div class="card">
-        <p class="small">
-          entry_packet_on_hand, broker_backup_on_hand, commercial_invoice_on_hand, classification_support_on_hand, hs_code, marketplace, fba_fee_usd, referral_fee_usd, other_cost_usd
-        </p>
-      </div>
-
       <p style="margin-top:16px;">
-        Redaction is acceptable for early review if aliases stay consistent and the row structure remains usable.
+        Most importers should walk away knowing exactly which entries to hand to their broker first instead of guessing where to start.
       </p>
     </section>
 
     <section class="section">
-      <h2>Best fit for</h2>
-      <ul>
-        <li>U.S. small importers with no dedicated customs or compliance employee</li>
-        <li>Owner-led or lean operations teams that need triage, not enterprise workflow software</li>
-        <li>Importers managing roughly 10–100 HTS codes or a manageable but real entry load</li>
-        <li>Businesses under margin pressure that need to know what deserves action first</li>
-      </ul>
+      <h2>What the pilot output is meant to show</h2>
+      <div class="signal-grid">
+        <div class="signal">
+          <strong>What changed</strong>
+          <p>Plain-English explanation of the issue or operating signal that may affect recent import entries.</p>
+        </div>
+        <div class="signal">
+          <strong>What is affected</strong>
+          <p>Which entries, SKUs, origin patterns, and related items appear to deserve review first.</p>
+        </div>
+        <div class="signal">
+          <strong>Whether support is ready</strong>
+          <p>Which cases look action-ready now and which still need entry packets, broker backup, invoices, or classification support.</p>
+        </div>
+        <div class="signal">
+          <strong>What should happen first</strong>
+          <p>Ranked next actions instead of a flat list of alerts, so a small operator can move in order.</p>
+        </div>
+        <div class="signal">
+          <strong>Where item pressure exists</strong>
+          <p>SKU-level pressure snapshot so entry review and margin decisions are not treated as separate worlds.</p>
+        </div>
+        <div class="signal">
+          <strong>What can be handed off</strong>
+          <p>A printable action pack built for review and follow-through, without pretending the tool is filing software.</p>
+        </div>
+      </div>
     </section>
 
     <section class="section">
@@ -827,15 +815,50 @@
     </section>
 
     <section class="section">
-      <h2>Current pilot status</h2>
+      <h2>Pilot offer</h2>
       <div class="status-box">
         <ul>
-          <li>The core front-end MVP flow already exists and runs end to end in prototype form.</li>
-          <li>The current go-to-market path is a manual pilot, not a self-serve SaaS launch.</li>
-          <li>Pilot intake and early access requests are being handled directly through email.</li>
-          <li>The near-term goal is to learn what small importers will actually pay for before building backend complexity.</li>
+          <li>1 CSV per review</li>
+          <li>Up to 500 rows</li>
+          <li>Manual review, not self-serve software access</li>
+          <li>Printable action pack returned by email</li>
+          <li>Target turnaround: within 72 hours</li>
+          <li>Pilot pricing is provided by reply after intake fit is confirmed</li>
         </ul>
       </div>
+    </section>
+
+    <section class="section">
+      <h2>What to send</h2>
+      <p>
+        If you want to move forward, request the upload template and send one structured CSV for review.
+      </p>
+
+      <div class="cta-row" style="margin-top:0; margin-bottom:18px;">
+        <a class="btn btn-secondary" href="mailto:hello@dutysignal.com?subject=Request%20DutySignal%20Upload%20Template">Request Upload Template</a>
+      </div>
+
+      <p>
+        DutySignal is built around structured import-entry data. The preferred intake includes:
+      </p>
+
+      <div class="card">
+        <p class="small">
+          entry_id, entry_date, importer_name, supplier_name, country_of_origin, declared_value_usd, duty_paid_usd, freight_cost_usd, sku, product_name, quantity, selling_price_usd
+        </p>
+      </div>
+
+      <p style="margin-top:16px;">Recommended support columns:</p>
+
+      <div class="card">
+        <p class="small">
+          entry_packet_on_hand, broker_backup_on_hand, commercial_invoice_on_hand, classification_support_on_hand, hs_code, marketplace, fba_fee_usd, referral_fee_usd, other_cost_usd
+        </p>
+      </div>
+
+      <p style="margin-top:16px;">
+        Redaction is acceptable for early review if aliases stay consistent and the row structure remains usable.
+      </p>
     </section>
 
     <section class="section">
@@ -870,7 +893,7 @@
     <section class="section">
       <h2>Request pilot access</h2>
       <p>
-        If you are a U.S. small importer and want to test whether DutySignal fits your workflow, request the upload template or email a brief summary of your import setup and current pain point.
+        If you are a U.S. small importer and want to test whether DutySignal fits your workflow, request a pilot review and include a brief summary of your import setup and current pain point.
       </p>
 
       <div class="cta-row">
