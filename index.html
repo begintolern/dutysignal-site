@@ -35,6 +35,8 @@
       --low-bg: #16261e;
       --low-border: #335e49;
       --low-text: #d4f7e3;
+      --ok-bg: #10243a;
+      --ok-border: #2b5c89;
     }
 
     body {
@@ -52,7 +54,7 @@
     }
 
     .hero {
-      padding: 72px 0 40px;
+      padding: 72px 0 24px;
     }
 
     .eyebrow {
@@ -106,7 +108,8 @@
       margin-top: 24px;
     }
 
-    .btn {
+    .btn,
+    button.btn {
       display: inline-block;
       padding: 14px 18px;
       border-radius: 12px;
@@ -114,9 +117,12 @@
       font-weight: 700;
       border: 1px solid #2a3b5f;
       transition: 0.18s ease;
+      cursor: pointer;
+      font: inherit;
     }
 
-    .btn:hover {
+    .btn:hover,
+    button.btn:hover {
       transform: translateY(-1px);
     }
 
@@ -129,6 +135,13 @@
     .btn-secondary {
       background: transparent;
       color: var(--text);
+    }
+
+    .link-inline {
+      color: var(--accent-soft);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-size: 14px;
     }
 
     .trust {
@@ -200,6 +213,103 @@
       padding: 20px;
     }
 
+    .notice {
+      background: var(--ok-bg);
+      border: 1px solid var(--ok-border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 16px;
+      color: var(--text);
+    }
+
+    .mini-note {
+      font-size: 14px;
+      color: var(--muted-2);
+      margin-top: 10px;
+    }
+
+    .feedback-box {
+      display: none;
+      margin-top: 16px;
+      background: #10243a;
+      border: 1px solid #2b5c89;
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .feedback-box.active {
+      display: block;
+    }
+
+    .feedback-box p {
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .fallback-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .fallback-grid .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid #31486d;
+      background: #0f182a;
+      color: var(--text);
+      padding: 12px 14px;
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .generated-box {
+      display: none;
+      margin-top: 16px;
+      background: #0f182a;
+      border: 1px solid #31486d;
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .generated-box.active {
+      display: block;
+    }
+
+    .generated-box pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 0;
+      color: #dbe8fb;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 13px;
+    }
+
     .mock-shell {
       margin-top: 18px;
       background: linear-gradient(180deg, #0d1527 0%, #0a1220 100%);
@@ -235,21 +345,6 @@
       margin: 0;
     }
 
-    .mock-action {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 42px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      background: #14365a;
-      border: 1px solid #37679a;
-      color: #e7f2ff;
-      font-size: 14px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
     .mock-pill-row {
       display: flex;
       flex-wrap: wrap;
@@ -266,6 +361,7 @@
       font-size: 13px;
       font-weight: 700;
       line-height: 1;
+      cursor: pointer;
     }
 
     .mock-pill.active {
@@ -342,6 +438,10 @@
 
     .mock-table tr:last-child td {
       border-bottom: 0;
+    }
+
+    .mock-table tbody tr.hidden-row {
+      display: none;
     }
 
     .col-priority { width: 14%; }
@@ -463,6 +563,20 @@
       border: 1px solid #33577f;
       color: #eff6ff;
       background: #132844;
+      cursor: pointer;
+    }
+
+    .detail-drawer {
+      display: none;
+      margin-top: 16px;
+      border: 1px solid #29466c;
+      background: #0f182a;
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .detail-drawer.active {
+      display: block;
     }
 
     ul {
@@ -500,9 +614,22 @@
       margin-bottom: 10px;
     }
 
+    .sr-feedback {
+      position: absolute;
+      left: -9999px;
+    }
+
     @media (max-width: 960px) {
       .mock-metrics {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .fallback-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .fallback-grid .full {
+        grid-column: auto;
       }
     }
 
@@ -564,6 +691,8 @@
 </head>
 <body>
   <div class="wrap">
+    <div id="screenReaderStatus" class="sr-feedback" aria-live="polite"></div>
+
     <section class="hero">
       <div class="eyebrow">For U.S. small importers without a real in-house trade team</div>
       <h1>Know what changed, what is affected, and what to do next</h1>
@@ -575,11 +704,79 @@
       </p>
 
       <div class="cta-row">
-        <a class="btn btn-primary" href="mailto:hello@dutysignal.com?subject=Request%20DutySignal%20Pilot">Request Pilot Review</a>
+        <a class="btn btn-primary cta-mailto" href="mailto:hello@dutysignal.com?subject=Request%20DutySignal%20Pilot" data-feedback="pilot">
+          Request Pilot Review
+        </a>
       </div>
 
       <div class="trust">
         Redacted files are acceptable for early review if aliases stay consistent across rows. Without a clear review path, small importers can miss deadlines, leave review-worthy entries untouched, or spend time on the wrong cases first.
+      </div>
+
+      <div id="ctaFeedback" class="feedback-box">
+        <p><strong>Your email app should open now.</strong> If nothing happened, use the quick request box below and copy the request into any email to <a class="inline" href="mailto:hello@dutysignal.com">hello@dutysignal.com</a>.</p>
+        <a class="link-inline" href="#quick-request">Go to quick request box</a>
+      </div>
+    </section>
+
+    <section class="section" id="quick-request">
+      <h2>No email app? Use the quick request box</h2>
+      <p>
+        This is the fallback path if clicking the email button does nothing on your device. Fill this out, copy the prepared message, and send it to <a class="inline" href="mailto:hello@dutysignal.com">hello@dutysignal.com</a> from any email service you use.
+      </p>
+
+      <div class="card">
+        <div class="fallback-grid">
+          <div>
+            <label for="requestType">Request type</label>
+            <select id="requestType">
+              <option value="pilot review">pilot review</option>
+              <option value="upload template">upload template</option>
+            </select>
+          </div>
+          <div>
+            <label for="contactName">Your name</label>
+            <input id="contactName" type="text" placeholder="Jane Smith" />
+          </div>
+          <div>
+            <label for="companyName">Company</label>
+            <input id="companyName" type="text" placeholder="Acme Imports LLC" />
+          </div>
+          <div>
+            <label for="contactEmail">Email</label>
+            <input id="contactEmail" type="email" placeholder="jane@company.com" />
+          </div>
+          <div>
+            <label for="rowEstimate">Estimated rows</label>
+            <input id="rowEstimate" type="text" placeholder="About 120" />
+          </div>
+          <div>
+            <label for="redactionStatus">File type</label>
+            <select id="redactionStatus">
+              <option value="unknown">unknown</option>
+              <option value="redacted">redacted</option>
+              <option value="unredacted">unredacted</option>
+            </select>
+          </div>
+          <div class="full">
+            <label for="painPoint">Current pain point</label>
+            <textarea id="painPoint" placeholder="Example: We got hit by a tariff change and do not know which recent entries deserve review first."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" id="prepareRequestBtn" type="button">Prepare request</button>
+          <button class="btn btn-secondary" id="copyRequestBtn" type="button">Copy prepared request</button>
+        </div>
+
+        <div class="mini-note">
+          This does not send automatically. It prepares a clean message and gives you a fallback if your device does not open an email client.
+        </div>
+
+        <div id="requestPreparedMessage" class="generated-box">
+          <p><strong>Request prepared.</strong> Copy this message and send it to <a class="inline" href="mailto:hello@dutysignal.com">hello@dutysignal.com</a>.</p>
+          <pre id="preparedRequestText"></pre>
+        </div>
       </div>
     </section>
 
@@ -623,17 +820,17 @@
           </div>
 
           <div>
-            <span class="mock-action">Export Action Pack</span>
+            <button class="mock-small-btn" id="downloadSamplePackBtn" type="button">Download Sample Action Pack</button>
           </div>
         </div>
 
-        <div class="mock-pill-row">
-          <span class="mock-pill active">All</span>
-          <span class="mock-pill">Critical</span>
-          <span class="mock-pill">Refund Opportunities</span>
-          <span class="mock-pill">Deadlines Soon</span>
-          <span class="mock-pill">Waiting on Records</span>
-          <span class="mock-pill">Ready to Send</span>
+        <div class="mock-pill-row" id="sampleFilters">
+          <button class="mock-pill active" type="button" data-filter="all">All</button>
+          <button class="mock-pill" type="button" data-filter="critical">Critical</button>
+          <button class="mock-pill" type="button" data-filter="refund">Refund Opportunities</button>
+          <button class="mock-pill" type="button" data-filter="deadline">Deadlines Soon</button>
+          <button class="mock-pill" type="button" data-filter="docs">Waiting on Records</button>
+          <button class="mock-pill" type="button" data-filter="ready">Ready to Send</button>
         </div>
 
         <div class="mock-metrics">
@@ -671,22 +868,22 @@
                   <th class="col-action">Next Action</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
+              <tbody id="sampleTableBody">
+                <tr data-tags="critical refund deadline ready">
                   <td data-label="Priority"><span class="priority-badge priority-critical">Critical</span></td>
                   <td data-label="SKU">SKU-1042</td>
                   <td data-label="Change Detected">Possible refund review on recent entries</td>
                   <td data-label="Deadline">Apr 22, 2026</td>
                   <td data-label="Next Action">Ask broker to review 3 affected entries</td>
                 </tr>
-                <tr>
+                <tr data-tags="high docs">
                   <td data-label="Priority"><span class="priority-badge priority-high">High</span></td>
                   <td data-label="SKU">SKU-2230</td>
                   <td data-label="Change Detected">Entry appears reviewable but still missing support</td>
                   <td data-label="Deadline">No hard deadline</td>
                   <td data-label="Next Action">Pull missing invoice and broker backup</td>
                 </tr>
-                <tr>
+                <tr data-tags="medium">
                   <td data-label="Priority"><span class="priority-badge priority-medium">Medium</span></td>
                   <td data-label="SKU">SKU-8811</td>
                   <td data-label="Change Detected">Item pressure tied to current landed cost</td>
@@ -732,11 +929,37 @@
               </ul>
 
               <div class="mock-side-cta-row">
-                <span class="mock-small-btn">Copy Broker Email</span>
-                <span class="mock-small-btn">Open Full Detail</span>
+                <button class="mock-small-btn" id="copyBrokerEmailBtn" type="button">Copy Broker Email</button>
+                <button class="mock-small-btn" id="openFullDetailBtn" type="button">Open Full Detail</button>
+              </div>
+              <div class="mini-note" id="sampleActionStatus">These sample controls now work inside this page.</div>
+            </div>
+
+            <div class="detail-drawer" id="detailDrawer">
+              <div class="mock-side-block" style="padding-top:0;">
+                <div class="mock-side-label">Why this case moved up</div>
+                <div class="mock-side-value">
+                  This sample case has higher dollar exposure, enough support on hand, and a short window for follow-through compared with lower-priority items.
+                </div>
+              </div>
+              <div class="mock-side-block">
+                <div class="mock-side-label">Suggested broker handoff</div>
+                <div class="mock-side-value">
+                  “Please review entry E004 and the attached support set first. This case appears action-ready and higher priority than the remaining items in this intake.”
+                </div>
+              </div>
+              <div class="mock-side-block">
+                <div class="mock-side-label">What happens in the pilot</div>
+                <div class="mock-side-value">
+                  In the full pilot review, the action pack is returned by email with the ranked next actions and supporting notes for follow-through.
+                </div>
               </div>
             </div>
           </div>
+        </div>
+
+        <div class="notice" id="sampleFilterNotice">
+          Filter the sample table using the labels above. Nothing here is fake-clickable anymore.
         </div>
       </div>
     </section>
@@ -835,7 +1058,9 @@
       </p>
 
       <div class="cta-row" style="margin-top:0; margin-bottom:18px;">
-        <a class="btn btn-secondary" href="mailto:hello@dutysignal.com?subject=Request%20DutySignal%20Upload%20Template">Request Upload Template</a>
+        <a class="btn btn-secondary cta-mailto" href="mailto:hello@dutysignal.com?subject=Request%20DutySignal%20Upload%20Template" data-feedback="template">
+          Request Upload Template
+        </a>
       </div>
 
       <p>
@@ -897,7 +1122,9 @@
       </p>
 
       <div class="cta-row">
-        <a class="btn btn-primary" href="mailto:hello@dutysignal.com?subject=Request%20DutySignal%20Pilot">Request Pilot Review</a>
+        <a class="btn btn-primary cta-mailto" href="mailto:hello@dutysignal.com?subject=Request%20DutySignal%20Pilot" data-feedback="pilot">
+          Request Pilot Review
+        </a>
         <a class="btn btn-secondary" href="mailto:hello@dutysignal.com">Email hello@dutysignal.com</a>
       </div>
     </section>
@@ -910,5 +1137,204 @@
       </div>
     </footer>
   </div>
+
+  <script>
+    (function () {
+      const ctaLinks = document.querySelectorAll('.cta-mailto');
+      const ctaFeedback = document.getElementById('ctaFeedback');
+      const srStatus = document.getElementById('screenReaderStatus');
+      const quickAnchor = '#quick-request';
+
+      ctaLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          if (ctaFeedback) {
+            ctaFeedback.classList.add('active');
+          }
+          if (srStatus) {
+            srStatus.textContent = 'Your email app should open now. If nothing happened, use the quick request box below.';
+          }
+        });
+      });
+
+      const requestType = document.getElementById('requestType');
+      const contactName = document.getElementById('contactName');
+      const companyName = document.getElementById('companyName');
+      const contactEmail = document.getElementById('contactEmail');
+      const rowEstimate = document.getElementById('rowEstimate');
+      const redactionStatus = document.getElementById('redactionStatus');
+      const painPoint = document.getElementById('painPoint');
+      const prepareRequestBtn = document.getElementById('prepareRequestBtn');
+      const copyRequestBtn = document.getElementById('copyRequestBtn');
+      const preparedRequestText = document.getElementById('preparedRequestText');
+      const requestPreparedMessage = document.getElementById('requestPreparedMessage');
+
+      function buildRequestText() {
+        const type = requestType.value || 'pilot review';
+        const lines = [
+          'To: hello@dutysignal.com',
+          'Subject: Request DutySignal ' + (type === 'upload template' ? 'Upload Template' : 'Pilot'),
+          '',
+          'Hi,',
+          '',
+          'I am reaching out about DutySignal.',
+          '',
+          'Request type: ' + type,
+          'Name: ' + (contactName.value || '[your name]'),
+          'Company: ' + (companyName.value || '[company]'),
+          'Email: ' + (contactEmail.value || '[email]'),
+          'Estimated rows: ' + (rowEstimate.value || 'unknown'),
+          'File type: ' + (redactionStatus.value || 'unknown'),
+          'Pain point: ' + (painPoint.value || '[describe your situation]'),
+          '',
+          'Thanks,'
+        ];
+        return lines.join('\n');
+      }
+
+      function showPreparedRequest() {
+        const text = buildRequestText();
+        preparedRequestText.textContent = text;
+        requestPreparedMessage.classList.add('active');
+        if (srStatus) {
+          srStatus.textContent = 'Request prepared. You can copy it now.';
+        }
+      }
+
+      prepareRequestBtn.addEventListener('click', showPreparedRequest);
+
+      copyRequestBtn.addEventListener('click', async () => {
+        const text = buildRequestText();
+        try {
+          await navigator.clipboard.writeText(text);
+          preparedRequestText.textContent = text;
+          requestPreparedMessage.classList.add('active');
+          if (srStatus) {
+            srStatus.textContent = 'Prepared request copied to clipboard.';
+          }
+        } catch (err) {
+          preparedRequestText.textContent = text;
+          requestPreparedMessage.classList.add('active');
+          if (srStatus) {
+            srStatus.textContent = 'Copy failed. The prepared request is visible on screen.';
+          }
+        }
+      });
+
+      const filterButtons = document.querySelectorAll('#sampleFilters .mock-pill');
+      const sampleRows = document.querySelectorAll('#sampleTableBody tr');
+      const sampleFilterNotice = document.getElementById('sampleFilterNotice');
+
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const filter = btn.getAttribute('data-filter');
+
+          filterButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          sampleRows.forEach(row => {
+            const tags = (row.getAttribute('data-tags') || '').split(' ');
+            if (filter === 'all' || tags.includes(filter)) {
+              row.classList.remove('hidden-row');
+            } else {
+              row.classList.add('hidden-row');
+            }
+          });
+
+          if (sampleFilterNotice) {
+            sampleFilterNotice.textContent =
+              filter === 'all'
+                ? 'Showing all sample rows.'
+                : 'Showing sample rows for: ' + btn.textContent + '.';
+          }
+        });
+      });
+
+      const copyBrokerEmailBtn = document.getElementById('copyBrokerEmailBtn');
+      const openFullDetailBtn = document.getElementById('openFullDetailBtn');
+      const detailDrawer = document.getElementById('detailDrawer');
+      const sampleActionStatus = document.getElementById('sampleActionStatus');
+
+      copyBrokerEmailBtn.addEventListener('click', async () => {
+        const brokerEmail = [
+          'Subject: Review request for entry E004',
+          '',
+          'Hi,',
+          '',
+          'Please review entry E004 first. It appears to be a higher-priority case with enough supporting records on hand to move into action review.',
+          '',
+          'Attached or available support:',
+          '- Entry packet',
+          '- Broker backup',
+          '- Commercial invoice',
+          '',
+          'Please let me know the next recommended step.',
+          '',
+          'Thanks'
+        ].join('\n');
+
+        try {
+          await navigator.clipboard.writeText(brokerEmail);
+          sampleActionStatus.textContent = 'Sample broker email copied to clipboard.';
+          if (srStatus) {
+            srStatus.textContent = 'Sample broker email copied to clipboard.';
+          }
+        } catch (err) {
+          sampleActionStatus.textContent = 'Copy failed on this device. The full pilot review includes a real action pack by email.';
+          if (srStatus) {
+            srStatus.textContent = 'Copy failed on this device.';
+          }
+        }
+      });
+
+      openFullDetailBtn.addEventListener('click', () => {
+        const isOpen = detailDrawer.classList.contains('active');
+        detailDrawer.classList.toggle('active');
+        openFullDetailBtn.textContent = isOpen ? 'Open Full Detail' : 'Hide Full Detail';
+        if (sampleActionStatus) {
+          sampleActionStatus.textContent = isOpen
+            ? 'Full sample detail hidden.'
+            : 'Full sample detail opened below.';
+        }
+      });
+
+      const downloadSamplePackBtn = document.getElementById('downloadSamplePackBtn');
+      downloadSamplePackBtn.addEventListener('click', () => {
+        const packText = [
+          'DutySignal Sample Action Pack',
+          '',
+          'Executive Summary',
+          'This sample intake surfaced review-worthy entries, missing records, and ranked next actions.',
+          '',
+          'Top Priority Entry',
+          'Entry E004 / SKU126 / Exposure $3,800 / Qualified now / Priority High',
+          '',
+          'Suggested Next Step',
+          'Pull the entry packet and broker backup, then start the action review before lower-value entries.',
+          '',
+          'Records Needed',
+          'Entry packet, Broker backup, Commercial invoice',
+          '',
+          'This is a sample file from the public landing page.'
+        ].join('\n');
+
+        const blob = new Blob([packText], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'dutysignal-sample-action-pack.txt';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+
+        if (sampleActionStatus) {
+          sampleActionStatus.textContent = 'Sample action pack downloaded.';
+        }
+        if (srStatus) {
+          srStatus.textContent = 'Sample action pack downloaded.';
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
